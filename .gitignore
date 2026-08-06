@@ -1,0 +1,7 @@
+﻿.env
+.env.*
+config-*.json
+!config.example.json
+*.mov
+*.zip
+node_modules/

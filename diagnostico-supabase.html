@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnóstico Supabase — Alcaldía Digital</title>
+<style>
+body{margin:0;background:#04101b;color:#eafaff;font-family:system-ui;padding:32px}main{max-width:900px;margin:auto;background:#071a29;border:1px solid #1bbfe055;border-radius:20px;padding:28px;box-shadow:0 0 60px #00d9ff18}h1{margin-top:0}button{background:#28e4ff;color:#00151c;border:0;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer}pre{white-space:pre-wrap;word-break:break-word;background:#020a11;padding:16px;border-radius:12px;min-height:180px}.ok{color:#7dffc1}.bad{color:#ff9cac}.muted{color:#92aebe}</style>
+</head>
+<body><main><h1>Diagnóstico de sincronización Supabase</h1><p class="muted">Esta página usa la conexión publicada en <code>cloud-bootstrap.js</code> y no solicita credenciales.</p><button id="run">Ejecutar diagnóstico</button><pre id="out">Preparado.</pre></main>
+<script src="cloud-bootstrap.js?v=1.2.6"></script>
+<script>
+const out=document.getElementById('out');
+const mask=(s)=>s?`${s.slice(0,10)}…${s.slice(-5)}`:'(vacío)';
+async function run(){
+ const c=window.IA_CLOUD_BOOTSTRAP||{};
+ out.className=''; out.textContent='Validando configuración…';
+ try{
+  const base=String(c.supabaseUrl||'').replace(/\/+$/,'');
+  const key=String(c.supabasePublishableKey||'');
+  const board=String(c.boardId||'');
+  out.textContent=`enabled: ${c.enabled}\nautoLoad: ${c.autoLoad}\nURL: ${base}\nKey: ${mask(key)}\nBoard: ${board}\n\nConsultando REST…`;
+  const url=`${base}/rest/v1/${encodeURIComponent(c.table||'presentation_boards')}?board_id=eq.${encodeURIComponent(board)}&select=config,updated_at&limit=1`;
+  const r=await fetch(url,{cache:'no-store',headers:{apikey:key,Accept:'application/json'}});
+  const text=await r.text();
+  out.textContent += `\nHTTP ${r.status}\n${text}`;
+  if(r.status===401){
+    out.textContent += `\n\nDIAGNÓSTICO: la clave fue rechazada por Supabase. Verifica que la Publishable key esté completa y corresponda exactamente al mismo proyecto de la URL.`;
+  }else if(r.ok){
+    try{
+      const rows=JSON.parse(text);
+      if(Array.isArray(rows)&&rows.length===0){
+        out.textContent += `\n\nDIAGNÓSTICO: la clave funciona, pero no se encontró el board_id o la política SELECT/RLS no permite leerlo.`;
+      }else{
+        out.textContent += `\n\nSINCRONIZACIÓN CORRECTA: Supabase devolvió la configuración.`;
+      }
+    }catch(_e){}
+  }
+  out.className=r.ok?'ok':'bad';
+ }catch(e){out.textContent += `\nERROR: ${e.message}`;out.className='bad';}
+}
+document.getElementById('run').onclick=run;run();
+</script></body></html>

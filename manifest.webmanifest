@@ -1,0 +1,16 @@
+{
+  "name": "IA Bot Alcaldía Digital",
+  "short_name": "Alcaldía IA",
+  "description": "Pizarra institucional del Gabinete de Tecnología e Innovación.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#06131f",
+  "theme_color": "#06131f",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

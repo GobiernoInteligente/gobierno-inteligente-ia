@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <title>Actualizar Gobierno Inteligente</title>
+  <style>
+    :root{color-scheme:dark;font-family:Inter,Segoe UI,sans-serif}
+    *{box-sizing:border-box}
+    body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;background:#06131f;color:#eefcff}
+    main{width:min(620px,100%);padding:30px;border:1px solid rgba(39,231,255,.3);border-radius:22px;background:#081b2b}
+    small{color:#27e7ff;letter-spacing:.15em;font-weight:800}
+    h1{margin:10px 0 12px}
+    p{color:#b9cfdb;line-height:1.6}
+    #status{margin-top:20px;padding:14px;border-radius:12px;background:rgba(39,231,255,.08)}
+  </style>
+</head>
+<body>
+  <main>
+    <small>ACTUALIZACIÓN v1.2.6</small>
+    <h1>Eliminando la versión anterior</h1>
+    <p>Solo se limpiarán el Service Worker y la caché técnica. No se eliminará localStorage ni la configuración almacenada en Supabase.</p>
+    <div id="status">Iniciando…</div>
+  </main>
+  <script>
+    (async () => {
+      const status = document.getElementById('status');
+      try {
+        status.textContent = 'Desregistrando Service Workers anteriores…';
+        if ('serviceWorker' in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map((registration) => registration.unregister()));
+        }
+        status.textContent = 'Eliminando cachés técnicas…';
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((key) => caches.delete(key)));
+        }
+        status.textContent = 'Limpieza completada. Abriendo la versión 1.2.6…';
+        setTimeout(() => {
+          location.replace('./index.html?build=1.2.6-' + Date.now());
+        }, 900);
+      } catch (error) {
+        status.textContent = 'No se pudo limpiar automáticamente. Cierre todas las pestañas del sitio y vuelva a intentarlo.';
+        console.error(error);
+      }
+    })();
+  </script>
+</body>
+</html>

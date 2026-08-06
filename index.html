@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#06131f" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>IA Bot Alcaldía Digital</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css?v=1.2.6" />
+</head>
+<body>
+  <div id="preloader" class="preloader active" aria-live="polite">
+    <div class="preloader-bg"></div>
+    <div class="preloader-shell">
+      <div class="preloader-brand">DIRECCIÓN DE TECNOLOGÍA E INNOVACIÓN</div>
+      <h1 class="preloader-title"><span>Gobierno Digital</span><span>Impulsado por IA</span></h1>
+      <p id="preloaderMessage" class="preloader-message">Inicializando Núcleo Cognitivo...</p>
+      <div class="gauge-wrap">
+        <div class="gauge-head">
+          <span>PROCESO DE ARRANQUE</span>
+          <strong id="preloaderPercent">0%</strong>
+        </div>
+        <div class="gauge-track">
+          <div id="preloaderBar" class="gauge-bar"></div>
+        </div>
+        <div id="preloaderSubMessage" class="gauge-submessage">Preparando entorno institucional inteligente...</div>
+      </div>
+      <div class="telemetry-grid">
+        <div class="telemetry-item"><span>IA</span><strong>ACTIVA</strong></div>
+        <div class="telemetry-item"><span>RED</span><strong>SEGURA</strong></div>
+        <div class="telemetry-item"><span>ESTADO</span><strong id="preloaderStatus">BOOTING</strong></div>
+        <div class="telemetry-item"><span>VISIÓN</span><strong>FUTURO DEL GOBIERNO</strong></div>
+      </div>
+      <div id="fullscreenLaunch" class="fullscreen-launch" hidden>
+        <button id="launchFullscreen" class="launch-fullscreen-button" type="button">
+          <span>INICIAR EXPERIENCIA</span>
+          <strong>PANTALLA COMPLETA</strong>
+        </button>
+        <p>El navegador exige una interacción para ocultar su interfaz. Este único toque activa el modo auditorio.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="accessGate" class="access-gate" aria-hidden="true">
+    <div class="gate-backdrop"></div>
+    <div class="gate-panel glass-panel">
+      <button id="accessClose" class="gate-close" type="button" aria-label="Cerrar acceso">×</button>
+      <div class="gate-kicker">ACCESO INSTITUCIONAL PROTEGIDO</div>
+      <h2>Centro de Operaciones de IA Gubernamental</h2>
+      <p class="gate-copy">Validación segura del entorno de demostración. La Dirección de Tecnología e Innovación impulsa la inmersión total en las nuevas tecnologías basadas en inteligencia artificial.</p>
+      <div id="lockVisual" class="lock-visual" aria-hidden="true">
+        <div class="lock-shackle"></div>
+        <div class="lock-body">
+          <div class="lock-core"></div>
+          <div class="lock-wave wave-a"></div>
+          <div class="lock-wave wave-b"></div>
+        </div>
+      </div>
+      <div class="gate-form">
+        <label>
+          <span>Clave de acceso</span>
+          <div class="pass-wrap">
+            <input id="accessPassword" type="password" placeholder="Ingrese la credencial institucional" autocomplete="off" />
+            <button id="accessSubmit" class="primary-button" type="button">Desbloquear</button>
+          </div>
+        </label>
+        <p id="accessStatus" class="gate-status">Entorno cifrado listo para validación.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="app-shell">
+    <video id="backgroundVideo" class="background-video" autoplay muted loop playsinline preload="auto"></video>
+    <div id="videoFallback" class="video-fallback"></div>
+    <div id="colorOverlay" class="color-overlay"></div>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="particles-layer" aria-hidden="true"></div>
+    <div id="avatarStage" class="avatar-stage" aria-hidden="true">
+      <div class="avatar-radar" aria-hidden="true"></div>
+      <div class="avatar-glow" aria-hidden="true"></div>
+      <video id="avatarVideo" class="avatar-video" autoplay muted loop playsinline preload="metadata">
+        <source id="avatarWebmSource" type="video/webm" />
+        <source id="avatarAltSource" />
+      </video>
+      <img id="avatarFallback" class="avatar-fallback" alt="Avatar digital institucional" />
+      <div class="avatar-platform" aria-hidden="true"></div>
+    </div>
+
+    <header class="institution-header glass-panel">
+      <div class="brand-zone">
+        <div class="logo-frame">
+          <img id="institutionLogo" alt="Logo institucional" />
+          <span id="logoPlaceholder">LOGO</span>
+        </div>
+        <div id="institutionLines" class="institution-lines">
+          <div id="institutionLine1">ALCALDÍA DIGITAL</div>
+          <div id="institutionLine2">INNOVACIÓN · SERVICIO · TRANSPARENCIA</div>
+          <div id="institutionLine3">MEMORIA Y CUENTA</div>
+        </div>
+      </div>
+      <div class="datetime-zone">
+        <span id="liveDate"></span>
+        <strong id="liveTime"></strong>
+      </div>
+      <div class="header-stream" aria-hidden="true"></div>
+    </header>
+
+    <main class="presentation-layout">
+      <section class="hero-copy glass-panel">
+        <span class="eyebrow">PLATAFORMA INSTITUCIONAL INTELIGENTE</span>
+        <h1 id="fixedTitle">Gestión pública conectada con el ciudadano</h1>
+        <div class="rotator-wrap" aria-live="polite">
+          <div id="rotatingText" class="rotating-text"></div>
+        </div>
+        <div class="status-strip">
+          <span><i></i> SISTEMA ACTIVO</span>
+          <span id="eventLabel">EVENTO INSTITUCIONAL</span>
+          <span id="cloudSyncBadge" class="cloud-sync-badge" data-state="loading"><i></i><strong>NUBE: CONECTANDO</strong></span>
+        </div>
+      </section>
+
+      <section id="chatZone" class="chat-zone glass-panel" data-embed-mode="column">
+        <div id="chatTopbar" class="chat-topbar">
+          <div>
+            <span class="chat-kicker">ASISTENTE VIRTUAL</span>
+            <h2 id="chatPanelTitle">IA Bot Institucional</h2>
+          </div>
+          <span class="online-pill">
+            <span class="online-core"><i></i><b></b><b></b><b></b></span>
+            <em>En línea</em>
+          </span>
+        </div>
+        <div id="chatEmbedContainer" class="chat-embed-container">
+          <div id="chatEmbedViewport" class="chat-embed-viewport">
+            <div id="chatEmbedStage" class="chat-embed-stage">
+              <div id="chatEmbedMount" class="chat-embed-mount">
+                <div class="chat-placeholder">
+                  <div class="bot-orb">IA</div>
+                  <h3>Área de integración del agente</h3>
+                  <p>Abre el panel administrativo y pega aquí el código embed de tu chatbot.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <button id="adminToggle" class="admin-toggle" title="Abrir configuración" aria-label="Abrir configuración">⚙</button>
+
+    <aside id="adminPanel" class="admin-panel" aria-hidden="true">
+      <div class="admin-header">
+        <div>
+          <div class="admin-kicker-row"><span>CONTROL OPERATIVO</span><em class="app-version-badge">v1.2.6</em></div>
+          <a class="cache-reset-link" href="limpiar-cache.html" title="Eliminar caché técnica y cargar la última versión">Actualizar interfaz</a>
+          <h2>Configurar evento</h2>
+        </div>
+        <button id="adminClose" class="icon-button" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="admin-scroll">
+        <details open>
+          <summary>Identidad institucional</summary>
+          <div class="form-grid">
+            <label>URL del logo<input id="cfgLogoUrl" type="url" placeholder="https://cdn.../logo.png" /></label>
+            <label>Línea 1<input id="cfgLine1" type="text" /></label>
+            <label>Línea 2<input id="cfgLine2" type="text" /></label>
+            <label>Línea 3<input id="cfgLine3" type="text" /></label>
+            <label>Tamaño línea 1<input id="cfgLine1Size" type="range" min="14" max="58" step="1" /></label>
+            <label>Tamaño línea 2<input id="cfgLine2Size" type="range" min="10" max="38" step="1" /></label>
+            <label>Tamaño línea 3<input id="cfgLine3Size" type="range" min="10" max="42" step="1" /></label>
+            <label>Separación entre líneas<input id="cfgLineGap" type="range" min="0" max="24" step="1" /></label>
+            <label>Ancho del logo (px)
+              <div class="range-value"><input id="cfgLogoWidth" data-logo-live type="range" min="42" max="320" step="1" /><output id="cfgLogoWidthValue">78 px</output></div>
+            </label>
+            <label>Alto del logo (px)
+              <div class="range-value"><input id="cfgLogoHeight" data-logo-live type="range" min="42" max="240" step="1" /><output id="cfgLogoHeightValue">78 px</output></div>
+            </label>
+            <label>Margen interior del logo
+              <div class="range-value"><input id="cfgLogoPadding" data-logo-live type="range" min="0" max="30" step="1" /><output id="cfgLogoPaddingValue">7 px</output></div>
+            </label>
+            <label>Ajuste de la imagen
+              <select id="cfgLogoFit" data-logo-live>
+                <option value="contain">Completa sin recortar</option>
+                <option value="cover">Llenar el marco</option>
+                <option value="fill">Estirar al marco</option>
+              </select>
+            </label>
+          </div>
+        </details>
+
+        <details open>
+          <summary>Presentación principal</summary>
+          <div class="form-grid">
+            <label>Título fijo<textarea id="cfgFixedTitle" rows="2"></textarea></label>
+            <label>Texto rotativo 1<textarea id="cfgRotate1" rows="2"></textarea></label>
+            <label>Texto rotativo 2<textarea id="cfgRotate2" rows="2"></textarea></label>
+            <label>Texto rotativo 3<textarea id="cfgRotate3" rows="2"></textarea></label>
+            <label>Intervalo de rotación (segundos)<input id="cfgRotateSeconds" type="number" min="2" max="30" step="1" /></label>
+            <label>Etiqueta del evento<input id="cfgEventLabel" type="text" /></label>
+          </div>
+        </details>
+
+        <details>
+          <summary>Video y apariencia</summary>
+          <div class="form-grid">
+            <label class="full-span">URL del video CDN<input id="cfgVideoUrl" type="url" placeholder="https://cdn.../video.mp4 o video.m3u8" /></label>
+            <label>Visibilidad del video
+              <div class="range-value"><input id="cfgVideoOpacity" data-video-live type="range" min="0.1" max="1" step="0.05" /><output id="cfgVideoOpacityValue">100%</output></div>
+            </label>
+            <label>Brillo del video
+              <div class="range-value"><input id="cfgVideoBrightness" data-video-live type="range" min="0.4" max="1.6" step="0.05" /><output id="cfgVideoBrightnessValue">100%</output></div>
+            </label>
+            <label>Color del overlay<input id="cfgOverlayColor" data-video-live type="color" /></label>
+            <label>Opacidad del overlay
+              <div class="range-value"><input id="cfgOverlayOpacity" data-video-live type="range" min="0" max="0.95" step="0.01" /><output id="cfgOverlayOpacityValue">64%</output></div>
+            </label>
+            <label>Color de acento<input id="cfgAccentColor" type="color" /></label>
+            <label>Intensidad futurista<input id="cfgFxIntensity" type="range" min="0" max="1" step="0.05" /></label>
+            <label>Duración del preloader (segundos)<input id="cfgPreloaderDuration" type="range" min="3" max="20" step="1" /></label>
+            <div class="video-diagnostic full-span">
+              <div>
+                <strong>Diagnóstico del video</strong>
+                <p id="videoStatus">Sin video configurado.</p>
+              </div>
+              <button id="testVideo" class="secondary-button" type="button">Probar / recargar video</button>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Modo auditorio y pantalla completa</summary>
+          <div class="form-grid">
+            <label class="switch-row full-span">
+              <input id="cfgFullscreenOnStart" type="checkbox" />
+              <span>Solicitar pantalla completa al iniciar</span>
+            </label>
+            <div class="button-row full-span">
+              <button id="enterFullscreen" class="secondary-button" type="button">Entrar en pantalla completa</button>
+              <button id="exitFullscreen" class="secondary-button" type="button">Salir de pantalla completa</button>
+            </div>
+            <p id="fullscreenStatus" class="helper full-span">Estado: modo ventana.</p>
+            <p class="helper full-span">Los navegadores no permiten activar F11 automáticamente sin una interacción. Para arranque totalmente automático en la misma laptop usa el archivo <strong>INICIAR-MODO-AUDITORIO.bat</strong> incluido en el paquete.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Avatar IA en video alfa</summary>
+          <div class="form-grid">
+            <label class="switch-row full-span">
+              <input id="cfgAvatarEnabled" data-avatar-live type="checkbox" />
+              <span>Mostrar avatar animado en la pizarra</span>
+            </label>
+            <label class="full-span">URL del video alfa (WebM recomendado)
+              <input id="cfgAvatarWebmUrl" type="url" placeholder="https://cdn.../robot-alpha.webm" />
+            </label>
+            <label class="full-span">URL de video alternativo (opcional)
+              <input id="cfgAvatarAltUrl" type="url" placeholder="https://cdn.../robot.mov o robot.mp4" />
+            </label>
+            <label class="full-span">Imagen transparente de respaldo (PNG/WebP)
+              <input id="cfgAvatarFallbackUrl" type="url" placeholder="https://cdn.../robot.png" />
+            </label>
+            <label>Posición horizontal en pantalla
+              <div class="range-value"><input id="cfgAvatarScreenX" data-avatar-live type="range" min="0" max="100" step="1" /><output id="cfgAvatarScreenXValue">78%</output></div>
+            </label>
+            <label>Posición vertical en pantalla
+              <div class="range-value"><input id="cfgAvatarScreenY" data-avatar-live type="range" min="0" max="100" step="1" /><output id="cfgAvatarScreenYValue">62%</output></div>
+            </label>
+            <label>Ancho
+              <div class="range-value"><input id="cfgAvatarWidth" data-avatar-live type="range" min="120" max="900" step="5" /><output id="cfgAvatarWidthValue">300 px</output></div>
+            </label>
+            <label>Alto
+              <div class="range-value"><input id="cfgAvatarHeight" data-avatar-live type="range" min="160" max="1000" step="5" /><output id="cfgAvatarHeightValue">480 px</output></div>
+            </label>
+            <label>Desplazamiento fino horizontal
+              <div class="range-value"><input id="cfgAvatarOffsetX" data-avatar-live type="range" min="-600" max="600" step="5" /><output id="cfgAvatarOffsetXValue">0 px</output></div>
+            </label>
+            <label>Desplazamiento fino vertical
+              <div class="range-value"><input id="cfgAvatarOffsetY" data-avatar-live type="range" min="-500" max="500" step="5" /><output id="cfgAvatarOffsetYValue">0 px</output></div>
+            </label>
+            <label>Escala
+              <div class="range-value"><input id="cfgAvatarScale" data-avatar-live type="range" min="0.25" max="2.5" step="0.05" /><output id="cfgAvatarScaleValue">100%</output></div>
+            </label>
+            <label>Rotación
+              <div class="range-value"><input id="cfgAvatarRotation" data-avatar-live type="range" min="-180" max="180" step="1" /><output id="cfgAvatarRotationValue">0°</output></div>
+            </label>
+            <label>Opacidad
+              <div class="range-value"><input id="cfgAvatarOpacity" data-avatar-live type="range" min="0.1" max="1" step="0.05" /><output id="cfgAvatarOpacityValue">100%</output></div>
+            </label>
+            <label>Halo futurista
+              <div class="range-value"><input id="cfgAvatarGlow" data-avatar-live type="range" min="0" max="1" step="0.05" /><output id="cfgAvatarGlowValue">65%</output></div>
+            </label>
+            <label>Velocidad de reproducción
+              <div class="range-value"><input id="cfgAvatarPlaybackRate" data-avatar-live type="range" min="0.25" max="2" step="0.05" /><output id="cfgAvatarPlaybackRateValue">100%</output></div>
+            </label>
+            <label>Profundidad de capa (z-index)
+              <div class="range-value"><input id="cfgAvatarZIndex" data-avatar-live type="range" min="0" max="25" step="1" /><output id="cfgAvatarZIndexValue">8</output></div>
+              <small>0–6: fondo · 8–10: detrás de paneles · 11–19: delante de la presentación · 20–25: capa superior.</small>
+            </label>
+            <label class="switch-row">
+              <input id="cfgAvatarFlipX" data-avatar-live type="checkbox" />
+              <span>Reflejar horizontalmente</span>
+            </label>
+            <div class="button-row full-span">
+              <button id="testAvatar" class="secondary-button" type="button">Probar / recargar avatar</button>
+              <button id="centerAvatar" class="secondary-button" type="button">Centrar avatar</button>
+            </div>
+            <p id="avatarStatus" class="helper full-span">El avatar funciona en una capa visual independiente y su profundidad puede controlarse con z-index y con <strong>pointer-events: none</strong>; nunca bloqueará la interacción con el chatbot.</p>
+          </div>
+        </details>
+
+        <details open>
+          <summary>Agente IA embebido y control visual</summary>
+          <div class="form-grid">
+            <label>Título del panel del chatbot<input id="cfgChatTitle" type="text" /></label>
+            <label class="full-span">Código embed<textarea id="cfgEmbedCode" rows="10" placeholder="Pega iframe, script o widget permitido por el proveedor..."></textarea></label>
+            <p class="helper full-span">El código permanece administrable desde este backend y se guarda en laptop, JSON y Supabase. Los controles siguientes modifican únicamente su presentación visual.</p>
+
+            <div class="admin-subsection full-span">Presentación, posición y escala</div>
+
+            <label>Modo de ubicación
+              <select id="cfgEmbedMode" data-embed-live>
+                <option value="column">Columna derecha</option>
+                <option value="free">Flotante libre</option>
+                <option value="fullscreen">Pantalla completa</option>
+              </select>
+            </label>
+            <label>Modo de ajuste
+              <select id="cfgEmbedFitMode" data-embed-live>
+                <option value="manual">Manual</option>
+                <option value="contain">Contener sin recortar</option>
+                <option value="cover">Cubrir toda el área</option>
+                <option value="stretch">Rellenar deformando</option>
+              </select>
+            </label>
+
+            <label class="switch-row">
+              <input id="cfgEmbedShowOuterPanel" data-embed-live type="checkbox" />
+              <span>Mostrar panel exterior</span>
+            </label>
+            <label class="switch-row">
+              <input id="cfgEmbedShowHeader" data-embed-live type="checkbox" />
+              <span>Mostrar cabecera del bot</span>
+            </label>
+
+            <label>Ancho base del bot
+              <div class="range-value"><input id="cfgEmbedContentWidth" data-embed-live type="range" min="240" max="1400" step="10" /><output id="cfgEmbedContentWidthValue">440 px</output></div>
+            </label>
+            <label>Alto base del bot
+              <div class="range-value"><input id="cfgEmbedContentHeight" data-embed-live type="range" min="280" max="1400" step="10" /><output id="cfgEmbedContentHeightValue">600 px</output></div>
+            </label>
+            <label>Ancho del área flotante
+              <div class="range-value"><input id="cfgEmbedAreaWidth" data-embed-live type="range" min="320" max="1800" step="10" /><output id="cfgEmbedAreaWidthValue">680 px</output></div>
+            </label>
+            <label>Alto del área flotante
+              <div class="range-value"><input id="cfgEmbedAreaHeight" data-embed-live type="range" min="320" max="1400" step="10" /><output id="cfgEmbedAreaHeightValue">760 px</output></div>
+            </label>
+
+            <label>Posición horizontal
+              <div class="range-value"><input id="cfgEmbedPositionX" data-embed-live type="range" min="0" max="100" step="1" /><output id="cfgEmbedPositionXValue">50%</output></div>
+            </label>
+            <label>Posición vertical
+              <div class="range-value"><input id="cfgEmbedPositionY" data-embed-live type="range" min="0" max="100" step="1" /><output id="cfgEmbedPositionYValue">50%</output></div>
+            </label>
+            <label>Desplazamiento horizontal
+              <div class="range-value"><input id="cfgEmbedOffsetX" data-embed-live type="range" min="-900" max="900" step="5" /><output id="cfgEmbedOffsetXValue">0 px</output></div>
+            </label>
+            <label>Desplazamiento vertical
+              <div class="range-value"><input id="cfgEmbedOffsetY" data-embed-live type="range" min="-700" max="700" step="5" /><output id="cfgEmbedOffsetYValue">0 px</output></div>
+            </label>
+
+            <label>Escala general
+              <div class="range-value"><input id="cfgEmbedScale" data-embed-live type="range" min="0.25" max="3.5" step="0.05" /><output id="cfgEmbedScaleValue">100%</output></div>
+            </label>
+            <label>Escala horizontal
+              <div class="range-value"><input id="cfgEmbedScaleX" data-embed-live type="range" min="0.5" max="2.5" step="0.05" /><output id="cfgEmbedScaleXValue">100%</output></div>
+            </label>
+            <label>Escala vertical
+              <div class="range-value"><input id="cfgEmbedScaleY" data-embed-live type="range" min="0.5" max="2.5" step="0.05" /><output id="cfgEmbedScaleYValue">100%</output></div>
+            </label>
+            <label>Punto de origen
+              <select id="cfgEmbedTransformOrigin" data-embed-live>
+                <option value="center center">Centro</option>
+                <option value="center top">Centro superior</option>
+                <option value="center bottom">Centro inferior</option>
+                <option value="left center">Izquierda</option>
+                <option value="right center">Derecha</option>
+                <option value="left top">Superior izquierda</option>
+                <option value="right top">Superior derecha</option>
+                <option value="left bottom">Inferior izquierda</option>
+                <option value="right bottom">Inferior derecha</option>
+              </select>
+            </label>
+            <label>Profundidad de capa
+              <div class="range-value"><input id="cfgEmbedZIndex" data-embed-live type="range" min="1" max="60" step="1" /><output id="cfgEmbedZIndexValue">12</output></div>
+            </label>
+
+            <label class="switch-row">
+              <input id="cfgEmbedOverflowHidden" data-embed-live type="checkbox" />
+              <span>Recortar excedente del área</span>
+            </label>
+            <label class="switch-row">
+              <input id="cfgEmbedForceExpanded" data-embed-live type="checkbox" />
+              <span>Forzar ElevenLabs expandido</span>
+            </label>
+
+            <div class="button-row full-span">
+              <button id="testEmbed" class="secondary-button" type="button">Probar código</button>
+              <button id="centerEmbed" class="secondary-button" type="button">Centrar</button>
+            </div>
+            <div class="button-row full-span bot-quick-actions">
+              <button id="containEmbed" class="secondary-button" type="button">Contener</button>
+              <button id="coverEmbed" class="secondary-button" type="button">Cubrir área</button>
+              <button id="stretchEmbed" class="secondary-button" type="button">Rellenar</button>
+              <button id="resetEmbedPresentation" class="secondary-button" type="button">Restaurar</button>
+            </div>
+            <p class="helper full-span">Para llenar el espacio sin deformar, usa <strong>Cubrir área</strong>. Para verlo completo, usa <strong>Contener</strong>. La escala general puede llevarse hasta 350% y se combina con las escalas horizontal y vertical.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Persistencia en la nube</summary>
+          <div class="form-grid">
+            <label>Proveedor
+              <select id="cfgCloudProvider">
+                <option value="none">Solo esta laptop</option>
+                <option value="supabase">Supabase</option>
+              </select>
+            </label>
+            <label>URL del proyecto Supabase<input id="cfgSupabaseUrl" type="url" placeholder="https://xxxx.supabase.co" /></label>
+            <label>Clave pública anon<input id="cfgSupabaseAnonKey" type="password" autocomplete="off" /></label>
+            <label>ID único de la pizarra<input id="cfgBoardId" type="text" placeholder="alcaldia-principal" /></label>
+            <div class="button-row full-span">
+              <button id="cloudLoad" class="secondary-button">Cargar nube</button>
+              <button id="cloudSave" class="secondary-button">Guardar nube</button>
+            </div>
+            <button id="downloadCloudBootstrap" class="secondary-button full-span" type="button">Descargar conexión automática para GitHub</button>
+            <p id="cloudStatus" class="helper full-span">Cuando <code>cloud-bootstrap.js</code> está configurado en GitHub, la aplicación descarga este pizarrón automáticamente en cualquier dispositivo. Si no hay internet, utiliza la última copia local.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="admin-actions">
+        <button id="previewChanges" class="secondary-button">Vista previa</button>
+        <button id="saveLocal" class="primary-button">Guardar en laptop</button>
+        <button id="exportJson" class="secondary-button">Exportar JSON</button>
+        <label class="secondary-button file-button">Importar JSON<input id="importJson" type="file" accept="application/json" /></label>
+        <button id="resetConfig" class="danger-button">Restablecer</button>
+      </div>
+    </aside>
+
+    <div id="toast" class="toast" role="status"></div>
+  </div>
+
+  <script src="cloud-bootstrap.js?v=20260806004815"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+  <script src="app.js?v=1.2.6"></script>
+</body>
+</html>
